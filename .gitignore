@@ -1,0 +1,10 @@
+# Archivos compilados de Java
+*.class
+bin/
+
+# Archivos de salida generados por el programa
+*.txt
+!*/.gitkeep
+
+# macOS
+.DS_Store
