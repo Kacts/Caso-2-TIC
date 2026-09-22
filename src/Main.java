@@ -17,15 +17,30 @@ public class Main {
         // ---------------------------------------------------------------
         // PASO 1 de tu plan: leer los 6 argumentos e imprimirlos.
         //
-        // TODO 1: validar que args.length == NUM_ARGS. Si no, imprimir un
-        //         mensaje de uso y terminar.
-        //
-        // TODO 2: convertir los argumentos numericos con Integer.parseInt
-        //         y guardar el ultimo como String (nombre del archivo).
-        //         Orden: filas, columnas, nv, tp, numPasadas, archivoSalida
-        //
-        // TODO 3: imprimir los seis valores para verificar el paso 1.
-        // ---------------------------------------------------------------
+
+        if (args.length == NUM_ARGS) {
+
+            int filas = Integer.parseInt(args[0]); 
+            int columnas = Integer.parseInt(args[1]);
+            int nv = Integer.parseInt(args[2]);
+            int tp = Integer.parseInt(args[3]);
+            int numPasadas = Integer.parseInt(args[4]);
+            String archivoSalida = args[5]; 
+            
+            System.out.println("filas="+filas 
+            + " columnas="+columnas
+            + " nv="+nv
+            + " tp="+tp
+            + " numPasadas="+ numPasadas
+            + " archivoSalida="+archivoSalida);
+        } else {
+
+            String error = "el numero de argumentos no es el esperado";
+            System.out.println(error);
+            System.exit(1);
+        }
+        
+
 
 
         // ---------------------------------------------------------------
