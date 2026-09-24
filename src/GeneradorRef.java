@@ -11,7 +11,7 @@ import java.io.PrintWriter;
  *  - El vector se almacena inmediatamente despues de la matriz.
  *  - Matriz y vector son de bytes, por lo que 1 elemento = 1 direccion.
  */
-public class GeneradorReferencias {
+public class GeneradorRef {
 
     // ------------------------------------------------------------------
     // Atributos: parametros de entrada del problema
@@ -35,7 +35,7 @@ public class GeneradorReferencias {
     // Constructor
     // ------------------------------------------------------------------
 
-    public GeneradorReferencias(int filas, int columnas, int nv,
+    public GeneradorRef(int filas, int columnas, int nv,
                                 int tp, int numPasadas, String archivoSalida) {
         this.filas = filas;
         this.columnas = columnas;

@@ -6,7 +6,10 @@
  *
  * Ejemplo:
  *   java -cp bin Main 300 20 142 256 5 salida.txt
+
  */
+
+
 public class Main {
 
     /** Cantidad de argumentos que espera el programa. */
@@ -14,9 +17,7 @@ public class Main {
 
     public static void main(String[] args) {
 
-        // ---------------------------------------------------------------
-        // PASO 1 de tu plan: leer los 6 argumentos e imprimirlos.
-        //
+
 
         if (args.length == NUM_ARGS) {
 
@@ -33,6 +34,14 @@ public class Main {
             + " tp="+tp
             + " numPasadas="+ numPasadas
             + " archivoSalida="+archivoSalida);
+
+            GeneradorRef gen = new GeneradorRef(filas, columnas, nv, tp, numPasadas, archivoSalida);
+
+            System.out.println(gen.getNP());
+            System.out.println(gen.getNR());
+
+            gen.generar();
+
         } else {
 
             String error = "el numero de argumentos no es el esperado";
@@ -40,19 +49,7 @@ public class Main {
             System.exit(1);
         }
         
-
-
-
-        // ---------------------------------------------------------------
-        // A partir del PASO 2: construir el generador y ejecutarlo.
-        //
-        // TODO 4: crear la instancia de GeneradorReferencias con los
-        //         parametros leidos.
-        //
-        // TODO 5: para verificar el paso 2, imprimir getNP() y getNR()
-        //         ANTES de escribir el archivo.
-        //
-        // TODO 6: cuando llegues al paso 8, llamar a generar().
-        // ---------------------------------------------------------------
+  
+        
     }
 }
