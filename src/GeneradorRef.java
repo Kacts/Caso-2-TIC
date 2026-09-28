@@ -114,8 +114,8 @@ public class GeneradorRef {
      */
     private int direccionVector(int k) {
 
-        
-        return 0; // TODO
+        int tamMatriz = filas * columnas; 
+        return k + tamMatriz; 
     }
 
     // ------------------------------------------------------------------
