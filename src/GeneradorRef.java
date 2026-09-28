@@ -99,13 +99,11 @@ public class GeneradorRef {
         return 0; // TODO
     }
 
-    /**
-     * Direccion lineal del elemento m[i][j] bajo row-major order.
-     *
-     * TODO: expresar la direccion en funcion de i, j y el numero de columnas.
-     */
+  
     private int direccionMatriz(int i, int j) {
-        return 0; // TODO
+        
+        int posicion = i*columnas + j; 
+        return posicion;
     }
 
     /**
@@ -115,7 +113,9 @@ public class GeneradorRef {
      * TODO: expresar la direccion en funcion de k y del tamano de la matriz.
      */
     private int direccionVector(int k) {
-        return 0; // TODO
+
+        int tamMatriz = filas * columnas; 
+        return k + tamMatriz; 
     }
 
     // ------------------------------------------------------------------
