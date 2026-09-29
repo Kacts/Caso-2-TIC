@@ -58,7 +58,12 @@ public class GeneradorRef {
      *       una pagina parcialmente usada sigue siendo una pagina.
      */
     public int getNP() {
-        return 0; // TODO: reemplazar por el calculo real
+
+        int total_bytes = filas*columnas + nv; 
+
+        int total_pag = (int) Math.ceil((double) total_bytes/ tp );
+
+        return total_pag; 
     }
 
     /**
@@ -74,7 +79,13 @@ public class GeneradorRef {
      *           ver nota en generar())
      */
     public int getNR() {
-        return 0; // TODO: reemplazar por el calculo real
+
+        int tam_matriz = filas*columnas; 
+        int ref_cel = 3*numPasadas; 
+
+        int total_NR = (tam_matriz*ref_cel)*2; 
+
+        return total_NR; 
     }
 
     // ------------------------------------------------------------------
@@ -87,7 +98,9 @@ public class GeneradorRef {
      * TODO: usar division entera entre el tamano de pagina.
      */
     private int calcularPagina(int direccion) {
-        return 0; // TODO
+
+        int num_pag = direccion/tp; 
+        return num_pag;
     }
 
     /**
@@ -96,10 +109,15 @@ public class GeneradorRef {
      * TODO: usar el operador modulo con el tamano de pagina.
      */
     private int calcularDesplazamiento(int direccion) {
-        return 0; // TODO
+
+        int despla = direccion%tp;
+        return despla;
     }
 
-  
+    /**
+     * Direccion lineal de m[i][j] en row-major order: se saltan i filas
+     * completas de 'columnas' bytes y luego se avanzan j posiciones.
+     */
     private int direccionMatriz(int i, int j) {
         
         int posicion = i*columnas + j; 
@@ -107,10 +125,8 @@ public class GeneradorRef {
     }
 
     /**
-     * Direccion lineal del elemento v[k], sabiendo que el vector arranca
-     * justo despues del ultimo byte de la matriz.
-     *
-     * TODO: expresar la direccion en funcion de k y del tamano de la matriz.
+     * Direccion lineal de v[k]. El vector arranca justo despues del ultimo
+     * byte de la matriz, es decir en la posicion filas * columnas.
      */
     private int direccionVector(int k) {
 
@@ -122,15 +138,18 @@ public class GeneradorRef {
     // PASO 3: encabezado del archivo
     // ------------------------------------------------------------------
 
-    /**
-     * Escribe las lineas de encabezado del archivo de salida.
-     *
-     * TODO: escribir, una por linea y respetando EXACTAMENTE las etiquetas
-     *       del Anexo A (TP, NF1, NC1, NV, numPasadas, NR, NP).
-     *       Usa writer.printf o writer.println.
-     */
+   
     private void escribirEncabezado() {
-        // TODO
+
+        writer.println("TP=" + tp + "\n"+
+            "NF1=" + filas + "\n"+
+            "NC1=" + columnas + "\n"+
+            "NV=" + nv + "\n"+
+            "numPasadas=" + numPasadas + "\n"+
+            "NR=" + getNR() + "\n"+
+            "NP=" + getNP()
+        ); 
+       
     }
 
     // ------------------------------------------------------------------
