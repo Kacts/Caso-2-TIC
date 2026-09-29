@@ -6,18 +6,13 @@
  *
  * Ejemplo:
  *   java -cp bin Main 300 20 142 256 5 salida.txt
-
  */
-
-
 public class Main {
 
     /** Cantidad de argumentos que espera el programa. */
     private static final int NUM_ARGS = 6;
 
     public static void main(String[] args) {
-
-
 
         if (args.length == NUM_ARGS) {
 
@@ -48,8 +43,5 @@ public class Main {
             System.out.println(error);
             System.exit(1);
         }
-        
-  
-        
     }
 }
