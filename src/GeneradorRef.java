@@ -6,10 +6,10 @@ import java.io.PrintWriter;
  * el algoritmo de cifrado Hill Modificado al recorrer la matriz y el vector.
  *
  * Supuestos de organizacion en memoria (dados por el enunciado):
- *  - La matriz se almacena por filas (row-major order), empezando en la
- *    direccion 0.
- *  - El vector se almacena inmediatamente despues de la matriz.
- *  - Matriz y vector son de bytes, por lo que 1 elemento = 1 direccion.
+ * - La matriz se almacena por filas (row-major order), empezando en la
+ * direccion 0.
+ * - El vector se almacena inmediatamente despues de la matriz.
+ * - Matriz y vector son de bytes, por lo que 1 elemento = 1 direccion.
  */
 public class GeneradorRef {
 
@@ -36,7 +36,7 @@ public class GeneradorRef {
     // ------------------------------------------------------------------
 
     public GeneradorRef(int filas, int columnas, int nv,
-                                int tp, int numPasadas, String archivoSalida) {
+            int tp, int numPasadas, String archivoSalida) {
         this.filas = filas;
         this.columnas = columnas;
         this.nv = nv;
@@ -56,11 +56,11 @@ public class GeneradorRef {
      */
     public int getNP() {
 
-        int total_bytes = filas*columnas + nv; 
+        int total_bytes = filas * columnas + nv;
 
-        int total_pag = (int) Math.ceil((double) total_bytes/ tp );
+        int total_pag = (int) Math.ceil((double) total_bytes / tp);
 
-        return total_pag; 
+        return total_pag;
     }
 
     /**
@@ -72,12 +72,12 @@ public class GeneradorRef {
      */
     public int getNR() {
 
-        int tam_matriz = filas*columnas; 
-        int ref_cel = 3*numPasadas; 
+        int tam_matriz = filas * columnas;
+        int ref_cel = 3 * numPasadas;
 
-        int total_NR = (tam_matriz*ref_cel)*2; 
+        int total_NR = (tam_matriz * ref_cel) * 2;
 
-        return total_NR; 
+        return total_NR;
     }
 
     // ------------------------------------------------------------------
@@ -89,7 +89,7 @@ public class GeneradorRef {
      */
     private int calcularPagina(int direccion) {
 
-        int num_pag = direccion/tp; 
+        int num_pag = direccion / tp;
         return num_pag;
     }
 
@@ -99,7 +99,7 @@ public class GeneradorRef {
      */
     private int calcularDesplazamiento(int direccion) {
 
-        int despla = direccion%tp;
+        int despla = direccion % tp;
         return despla;
     }
 
@@ -108,8 +108,8 @@ public class GeneradorRef {
      * completas de 'columnas' bytes y luego se avanzan j posiciones.
      */
     private int direccionMatriz(int i, int j) {
-        
-        int posicion = i*columnas + j; 
+
+        int posicion = i * columnas + j;
         return posicion;
     }
 
@@ -119,8 +119,8 @@ public class GeneradorRef {
      */
     private int direccionVector(int k) {
 
-        int tamMatriz = filas * columnas; 
-        return k + tamMatriz; 
+        int tamMatriz = filas * columnas;
+        return k + tamMatriz;
     }
 
     // ------------------------------------------------------------------
@@ -133,15 +133,14 @@ public class GeneradorRef {
      */
     private void escribirEncabezado() {
 
-        writer.println("TP=" + tp + "\n"+
-            "NF1=" + filas + "\n"+
-            "NC1=" + columnas + "\n"+
-            "NV=" + nv + "\n"+
-            "numPasadas=" + numPasadas + "\n"+
-            "NR=" + getNR() + "\n"+
-            "NP=" + getNP()
-        ); 
-       
+        writer.println("TP=" + tp + "\n" +
+                "NF1=" + filas + "\n" +
+                "NC1=" + columnas + "\n" +
+                "NV=" + nv + "\n" +
+                "numPasadas=" + numPasadas + "\n" +
+                "NR=" + getNR() + "\n" +
+                "NP=" + getNP());
+
     }
 
     // ------------------------------------------------------------------
@@ -150,17 +149,21 @@ public class GeneradorRef {
 
     /**
      * Escribe una linea de referencia en el archivo, con el formato:
-     *   [etiqueta],pagina,desplazamiento
+     * [etiqueta],pagina,desplazamiento
      *
-     * @param etiqueta texto que identifica el elemento referenciado,
-     *                 por ejemplo "mat1-0-1" o "v-0-0"
+     * @param etiqueta  texto que identifica el elemento referenciado,
+     *                  por ejemplo "mat1-0-1" o "v-0-0"
      * @param direccion direccion lineal (en bytes) del elemento
      *
-     * TODO: traducir la direccion a pagina y desplazamiento usando los
-     *       helpers de arriba, y escribir la linea con el formato exacto.
+     *                  TODO: traducir la direccion a pagina y desplazamiento usando
+     *                  los
+     *                  helpers de arriba, y escribir la linea con el formato
+     *                  exacto.
      */
     private void escribirReferencia(String etiqueta, int direccion) {
-        // TODO
+        int pagina = calcularPagina(direccion);
+        int desplazamiento = calcularDesplazamiento(direccion);
+        writer.println("[" + etiqueta + "]," + pagina + "," + desplazamiento);
     }
 
     // ------------------------------------------------------------------
@@ -169,15 +172,23 @@ public class GeneradorRef {
 
     /**
      * Registra las referencias del recorrido por filas, que corresponde a:
-     *   m[i][j] = (byte) ((m[i][j] + v[j % v.length]) & 0xFF);
+     * m[i][j] = (byte) ((m[i][j] + v[j % v.length]) & 0xFF);
      *
      * TODO: replicar los bucles anidados del enunciado (i sobre filas,
-     *       j sobre columnas) y, por cada celda, escribir las referencias
-     *       en el MISMO orden en que el codigo accede a memoria.
-     *       Fijate en el Anexo A para confirmar ese orden.
+     * j sobre columnas) y, por cada celda, escribir las referencias
+     * en el MISMO orden en que el codigo accede a memoria.
+     * Fijate en el Anexo A para confirmar ese orden.
      */
     private void recorridoPorFilas() {
-        // TODO
+        // m[i][j] = (byte) ((m[i][j] + v[j % nv]) & 0xFF)
+        // Orden de accesos por celda: leer m[i][j], leer v[j%nv], escribir m[i][j]
+        for (int i = 0; i < filas; i++) {
+            for (int j = 0; j < columnas; j++) {
+                escribirReferencia("mat1-" + i + "-" + j, direccionMatriz(i, j));
+                escribirReferencia("v-0-" + (j % nv), direccionVector(j % nv));
+                escribirReferencia("mat1-" + i + "-" + j, direccionMatriz(i, j));
+            }
+        }
     }
 
     // ------------------------------------------------------------------
@@ -186,14 +197,23 @@ public class GeneradorRef {
 
     /**
      * Registra las referencias del recorrido por columnas, que corresponde a:
-     *   m[i][j] = (byte) ((m[i][j] ^ v[i % v.length]) & 0xFF);
+     * m[i][j] = (byte) ((m[i][j] ^ v[i % v.length]) & 0xFF);
      *
      * TODO: replicar los bucles del enunciado, con j en el bucle externo
-     *       e i en el interno. Observa que aqui el indice del vector
-     *       depende de i, no de j.
+     * e i en el interno. Observa que aqui el indice del vector
+     * depende de i, no de j.
      */
     private void recorridoPorColumnas() {
-        // TODO
+        // m[i][j] = (byte) ((m[i][j] ^ v[i % nv]) & 0xFF)
+        // Bucle externo: j (columnas); interno: i (filas)
+        // Orden de accesos por celda: leer m[i][j], leer v[i%nv], escribir m[i][j]
+        for (int j = 0; j < columnas; j++) {
+            for (int i = 0; i < filas; i++) {
+                escribirReferencia("mat1-" + i + "-" + j, direccionMatriz(i, j));
+                escribirReferencia("v-0-" + (i % nv), direccionVector(i % nv));
+                escribirReferencia("mat1-" + i + "-" + j, direccionMatriz(i, j));
+            }
+        }
     }
 
     // ------------------------------------------------------------------
@@ -212,17 +232,14 @@ public class GeneradorRef {
 
             escribirEncabezado();
 
-            // ----------------------------------------------------------
-            // TODO: aqui va el ciclo de pasadas.
-            //
-            // DECISION DE DISENO QUE DEBES TOMAR Y JUSTIFICAR:
-            // en el codigo del enunciado el bucle de numPasadas envuelve
-            // SOLO el recorrido por filas; el recorrido por columnas queda
-            // afuera. Decide si lo replicas literalmente o si asumes que
-            // ambos recorridos van dentro del bucle, y deja constancia de
-            // la decision en el informe. El valor de getNR() debe ser
-            // coherente con lo que implementes aqui.
-            // ----------------------------------------------------------
+            // Ambos recorridos (filas y columnas) van dentro del ciclo de
+            // pasadas, de modo que cada pasada aplica primero la suma por
+            // filas y luego el XOR por columnas. Esto es coherente con
+            // getNR() = filas*columnas * 3 * numPasadas * 2.
+            for (int p = 0; p < numPasadas; p++) {
+                recorridoPorFilas();
+                recorridoPorColumnas();
+            }
 
         } catch (IOException e) {
             System.out.println("Error escribiendo el archivo: " + e.getMessage());
