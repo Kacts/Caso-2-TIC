@@ -46,16 +46,13 @@ public class GeneradorRef {
     }
 
     // ------------------------------------------------------------------
-    // PASO 2: aritmetica base (verificable sin escribir archivo)
+    // Valores del encabezado: NP y NR
     // ------------------------------------------------------------------
 
     /**
      * Numero de paginas virtuales necesarias para almacenar la matriz y el
-     * vector.
-     *
-     * TODO: calcular el total de bytes ocupados y convertirlo a paginas.
-     *       Piensa que hacer cuando el total NO es multiplo exacto de tp:
-     *       una pagina parcialmente usada sigue siendo una pagina.
+     * vector. Se redondea hacia arriba porque una pagina parcialmente usada
+     * sigue siendo una pagina.
      */
     public int getNP() {
 
@@ -69,14 +66,9 @@ public class GeneradorRef {
     /**
      * Numero total de referencias (dvs) que se escribiran en el archivo.
      *
-     * TODO: derivarlo de:
-     *        - cuantas referencias genera cada asignacion m[i][j] = ...
-     *          (revisa el patron del Anexo A: lectura matriz, lectura
-     *          vector, escritura matriz)
-     *        - cuantas celdas recorre cada recorrido
-     *        - cuantas veces se ejecuta cada recorrido segun numPasadas
-     *          (ojo con la decision de diseno del recorrido por columnas,
-     *           ver nota en generar())
+     * Cada celda genera 3 referencias (lee m, lee v, escribe m), y en cada
+     * pasada se hacen 2 recorridos completos de la matriz (filas y columnas).
+     * Con 300x20 y 5 pasadas da 180000, igual al Anexo A.
      */
     public int getNR() {
 
@@ -93,9 +85,7 @@ public class GeneradorRef {
     // ------------------------------------------------------------------
 
     /**
-     * Pagina virtual en la que cae una direccion lineal.
-     *
-     * TODO: usar division entera entre el tamano de pagina.
+     * Pagina virtual en la que cae una direccion lineal (division entera).
      */
     private int calcularPagina(int direccion) {
 
@@ -104,9 +94,8 @@ public class GeneradorRef {
     }
 
     /**
-     * Desplazamiento (offset) de una direccion lineal dentro de su pagina.
-     *
-     * TODO: usar el operador modulo con el tamano de pagina.
+     * Desplazamiento (offset) de una direccion lineal dentro de su pagina
+     * (residuo de la division).
      */
     private int calcularDesplazamiento(int direccion) {
 
@@ -135,10 +124,13 @@ public class GeneradorRef {
     }
 
     // ------------------------------------------------------------------
-    // PASO 3: encabezado del archivo
+    // Encabezado del archivo
     // ------------------------------------------------------------------
 
-   
+    /**
+     * Escribe las 7 lineas de encabezado con las etiquetas exactas del
+     * Anexo A: TP, NF1, NC1, NV, numPasadas, NR, NP.
+     */
     private void escribirEncabezado() {
 
         writer.println("TP=" + tp + "\n"+
